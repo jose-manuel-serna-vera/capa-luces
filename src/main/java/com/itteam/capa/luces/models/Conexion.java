@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 public class Conexion {
 
     private final int PUERTO = 5003; //Puerto para la conexión
-    private final String HOST = "192.168.1.254"; //Host para la conexión
+    private final String HOST = "192.168.0.50"; //Host para la conexión
     public Socket s;
     public byte[] tmp, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8 = new byte[256];
     public byte[] tmpInp = new byte[1000];
@@ -33,7 +33,7 @@ public class Conexion {
         isFilled = false;     // sets false to false
         jobID = ++count;
         if (tipo.equals("cliente")) {
-            s = new Socket("192.168.1.254", 5003);
+            s = new Socket("192.168.0.50", 5003);
             din = new DataInputStream(s.getInputStream());
             dout = new DataOutputStream(s.getOutputStream());
 
@@ -119,6 +119,7 @@ public class Conexion {
             System.out.println("Entrada ="+str1);
             tmp = str1.getBytes();
             dout.write(tmp);
+            dout.writeUTF("Hola desde el servidor");
             dout.flush();
             din.read(tmpInp);
             str3 = new String(tmpInp);
@@ -198,7 +199,26 @@ public class Conexion {
         }
     }
 
-    public void A() { //Comandos de Mantenimiento (A, Az, Ac)Cada módulo muestra la dirección propia o la configuración de la dirección para cada dispositivo.
+    public void command(String commando) { //Comandos de Mantenimiento (A, Az, Ac)Cada módulo muestra la dirección propia o la configuración de la dirección para cada dispositivo.
+        try {
+            //Resetea todo el 
+            str1 = commando;
+            System.out.println("Salida = " + str1);
+            tmp = str1.getBytes();
+            dout.write(tmp);
+            dout.flush();
+            din.read(tmpInp);
+            str3 = new String(tmpInp);
+            System.out.println("Entrada = " + str3);
+
+            //dout.close();  
+            //s.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ClienteService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+        public void A() { //Comandos de Mantenimiento (A, Az, Ac)Cada módulo muestra la dirección propia o la configuración de la dirección para cada dispositivo.
         try {
             //Resetea todo el 
             str1 = "\u00020020001A\u0003";//,str2="";
@@ -216,6 +236,8 @@ public class Conexion {
             Logger.getLogger(ClienteService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    
 
     public void PP1() {
         /*

@@ -18,11 +18,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 public class ClienteService extends Conexion {
 
     public ClienteService() throws IOException {
-        super("clientex");
+        super("cliente");
     } //Se usa el constructor para cliente de Conexion
 
     public void startClient(String name) //Método para iniciar el cliente
@@ -73,74 +74,81 @@ public class ClienteService extends Conexion {
                     m1.setSEG(seg);
                     m1.setBUZ(buz);
                     CommandoDao cm1 =x1.expresion(m1);
+                    
+                    Commandos c = new Commandos();
+                    
                     System.out.println("------------------------------------");
 
                     //SETEAR MODELO M2
-                    M2 m2 = new M2();
-                    m2.setLED1("ON");
-                    m2.setLED2("ON");
-                    m2.setLED3("ON");
-                    m2.setSEG("ON");
-                    m2.setBUZ("OFF");
-                    CommandoDao cm2 =x2.expresion(m2);
-                    System.out.println("------------------------------------");
-
-                    //SETEAR MODELO M3
-                    M3 m3 = new M3();
-                    m3.setLED1("FAST");
-                    m3.setLED2("FAST");
-                    m3.setLED3("FAST");
-                    m3.setSEG("F");
-                    m3.setBUZ("F");
-                    CommandoDao cm3 =x3.expresion(m3);
-                    System.out.println("------------------------------------");
-
-                    //SETEAR MODELO M4
-                    M4 m4 = new M4();
-                    m4.setA("NOT_USE");
-                    m4.setB("NOT_USE");
-                    m4.setC("USE");
-                    CommandoDao cm4 = x4.expresion(m4);
-                    System.out.println("------------------------------------");
-
-                    //SETEAR MODELO M3
-                    M8 m8 = new M8();
-                    m8.setA("USE");
-                    m8.setB("USE");
-                    m8.setC("NOT_USE");
-                    m8.setD("SEC0");
-                    m8.setE("SEC2");
-                    CommandoDao cm8 =x8.expresion(m8);
-                    System.out.println("------------------------------------");
-
-
-
-                    //COMANDO M
-                    Commandos comando = new Commandos();
-                    Integer longitud = cm1.getLongitud()+cm2.getLongitud() + cm4.getLongitud();
-                    String parametros = cm1.getComando()+cm2.getComando()+cm4.getComando();
-                    System.out.println("Mode array = "+parametros);
-
+//                    M2 m2 = new M2();
+//                    m2.setLED1("ON");
+//                    m2.setLED2("ON");
+//                    m2.setLED3("ON");
+//                    m2.setSEG("ON");
+//                    m2.setBUZ("OFF");
+//                    CommandoDao cm2 =x2.expresion(m2);
+//                    System.out.println("------------------------------------");
+//
+//                    //SETEAR MODELO M3
+//                    M3 m3 = new M3();
+//                    m3.setLED1("FAST");
+//                    m3.setLED2("FAST");
+//                    m3.setLED3("FAST");
+//                    m3.setSEG("F");
+//                    m3.setBUZ("F");
+//                    CommandoDao cm3 =x3.expresion(m3);
+//                    System.out.println("------------------------------------");
+//
+//                    //SETEAR MODELO M4
+//                    M4 m4 = new M4();
+//                    m4.setA("NOT_USE");
+//                    m4.setB("NOT_USE");
+//                    m4.setC("USE");
+//                    CommandoDao cm4 = x4.expresion(m4);
+//                    System.out.println("------------------------------------");
+//
+//                    //SETEAR MODELO M3
+//                    M8 m8 = new M8();
+//                    m8.setA("USE");
+//                    m8.setB("USE");
+//                    m8.setC("NOT_USE");
+//                    m8.setD("SEC0");
+//                    m8.setE("SEC2");
+//                    CommandoDao cm8 =x8.expresion(m8);
+//                    System.out.println("------------------------------------");
+//
+//
+//
+//                    //COMANDO M
+//                    Commandos comando = new Commandos();
+//                    Integer longitud = cm1.getLongitud()+cm2.getLongitud() + cm4.getLongitud();
+//                    String parametros = cm1.getComando()+cm2.getComando()+cm4.getComando();
+//                    System.out.println("Mode array = "+parametros);
+//
                     PP1Service pp1Service = new PP1Service();
-
-                    List<RepeatablePP1Dao> pp1Daos = new ArrayList<>();
-                    RepeatablePP1Dao pp1Dao = new RepeatablePP1Dao();
-                    pp1Dao.setAddress("0418");
-                    pp1Dao.setDisplayData("00010");
-                    pp1Dao.setDisplayAfterData("00031");
-                    pp1Daos.add(pp1Dao);
-                    pp1Daos.add(pp1Dao);
-
-                    CommandoDao pp1 = pp1Service.operacion(true,"01",0,"","0401","00003");
+//
+//                    List<RepeatablePP1Dao> pp1Daos = new ArrayList<>();
+//                    RepeatablePP1Dao pp1Dao = new RepeatablePP1Dao();
+//                    pp1Dao.setAddress("0418");
+//                    pp1Dao.setDisplayData("00010");
+//                    pp1Dao.setDisplayAfterData("00031");
+//                    pp1Daos.add(pp1Dao);
+//                    pp1Daos.add(pp1Dao);
+//
+                    CommandoDao pp1 = pp1Service.operacion(true,"01",cm1.getLongitud(),cm1.getComando(),"0418","00003","00005");
                     System.out.println("operacion PP1 = "+pp1.getComando() +"--"+ pp1.getLongitud());
-                    CommandoDao pp1_ = pp1Service.operacion(true,"02",0,"","001","00003","00005");
-                    System.out.println("operacion PP1_ = "+pp1_.getComando() +"--"+ pp1_.getLongitud());
-                    CommandoDao pp1__ = pp1Service.operacion(true,"03",0,true,"",pp1Daos);
-                    System.out.println("operacion pp1__ = "+pp1__.getComando() +"--"+ pp1__.getLongitud());
+                    String trama = c.test("001", pp1.getLongitud(), pp1.getComando(), "", "");
+                    trama = StringEscapeUtils.unescapeJava(trama);                    
 
-
-                    String trama = comando.test("001",pp1__.getLongitud(),pp1__.getComando(),"","");
-                    System.out.println("trama => "+trama);
+                    this.command(trama);
+//                    CommandoDao pp1_ = pp1Service.operacion(true,"02",0,"","001","00003","00005");
+//                    System.out.println("operacion PP1_ = "+pp1_.getComando() +"--"+ pp1_.getLongitud());
+//                    CommandoDao pp1__ = pp1Service.operacion(true,"03",0,true,"",pp1Daos);
+//                    System.out.println("operacion pp1__ = "+pp1__.getComando() +"--"+ pp1__.getLongitud());
+//
+//
+//                    String trama = comando.test("001",pp1__.getLongitud(),pp1__.getComando(),"","");
+//                    System.out.println("trama => "+trama);
                     break;
                 default:
                     System.out.println("Comando no existe");
