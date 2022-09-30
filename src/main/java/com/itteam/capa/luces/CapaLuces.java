@@ -30,7 +30,7 @@ public class CapaLuces {
 
         while (true) {
             Scanner in = new Scanner(System.in);
-            System.out.print("Enter command: ");
+            System.out.println("Enter command: ");
             String name = in.nextLine();
             cli.startClient(name); //Se inicia el cliente
         }

@@ -23,7 +23,7 @@ public class PP1Service extends Commandos {
     //(1) Especificación del modo de operación・Instrucción de operación
     public CommandoDao operacion(boolean afterFn, String block,Integer longitud, String modeArray, String address, String displayData){
         String commando =
-                Modo.PP1_.getModo()+ specified(afterFn)+ block+ modeArray+ address+displayData;
+                Modo.PP5_.getModo()+ specified(afterFn)+ block+ modeArray+ address+displayData;
         commandoDao.setComando(commando);
         commandoDao.setLongitud(longitudOp1+longitud);
         return commandoDao;

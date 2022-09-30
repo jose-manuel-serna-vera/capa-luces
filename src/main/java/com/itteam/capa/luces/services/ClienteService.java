@@ -29,6 +29,7 @@ public class ClienteService extends Conexion {
     public void startClient(String name) //Método para iniciar el cliente
     {
         try {
+            Scanner in = new Scanner(System.in);
             switch (name) {
                 case "PP5":
                     this.PP5();
@@ -42,6 +43,11 @@ public class ClienteService extends Conexion {
                 case "A":
                     this.A();
                     break;
+                case "T":
+                    System.out.println("Enter No. block:");
+                    String nro = in.nextLine();
+                    this.closeT(Integer.parseInt(nro));
+                    break;
                 case "B":
                     this.B();
                     break;
@@ -53,7 +59,9 @@ public class ClienteService extends Conexion {
                     M3Service x3 = new M3Service();
                     M4Service x4 = new M4Service();
                     M8Service x8 = new M8Service();
-                    Scanner in = new Scanner(System.in);
+                     in = new Scanner(System.in);
+                    System.out.println("Enter address:");
+                    String luz = in.nextLine();
                     System.out.println("Enter m1 config(ON,ON,ON,ON,OFF)");
                     System.out.println("Enter Led1:");
                     String Led1 = in.nextLine();
@@ -134,10 +142,14 @@ public class ClienteService extends Conexion {
 //                    pp1Dao.setDisplayAfterData("00031");
 //                    pp1Daos.add(pp1Dao);
 //                    pp1Daos.add(pp1Dao);
-//
-                    CommandoDao pp1 = pp1Service.operacion(true,"01",cm1.getLongitud(),cm1.getComando(),"0418","00003","00005");
+//                  
+                    String comando = cm1.getComando().concat("ma\u0045").concat("m4\u0044");
+                    System.out.println("comando = "+comando);
+
+                    CommandoDao pp1 = pp1Service.operacion(true,"01",cm1.getLongitud()+6+14,comando,luz,"00003","0000504170000300005");
                     System.out.println("operacion PP1 = "+pp1.getComando() +"--"+ pp1.getLongitud());
-                    String trama = c.test("001", pp1.getLongitud(), pp1.getComando(), "", "");
+                    
+                    String trama = c.test("004", pp1.getLongitud(), pp1.getComando(), "", "");
                     trama = StringEscapeUtils.unescapeJava(trama);                    
 
                     this.command(trama);

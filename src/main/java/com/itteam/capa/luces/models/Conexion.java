@@ -22,7 +22,7 @@ public class Conexion {
     private final String HOST = "192.168.0.50"; //Host para la conexión
     public Socket s;
     public byte[] tmp, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7, tmp8 = new byte[256];
-    public byte[] tmpInp = new byte[1000];
+    public byte[] tmpInp = new byte[1015];
     public String str, str1, str3, str4, str5, str6;
     public DataInputStream din;
     public DataOutputStream dout;
@@ -37,7 +37,7 @@ public class Conexion {
             din = new DataInputStream(s.getInputStream());
             dout = new DataOutputStream(s.getOutputStream());
 
-        }else{
+        } else {
 
         }
 
@@ -116,14 +116,14 @@ public class Conexion {
              Escribir informacion en los BAY DISPLAY - MODULO DE 10 CARACTERES
              */
 //            str1 = "\u0002" + "0020017X7070LIGHT MODULE" + "\u0003";
-            System.out.println("Entrada ="+str1);
+            System.out.println("Entrada =" + str1);
             tmp = str1.getBytes();
             dout.write(tmp);
             dout.writeUTF("Hola desde el servidor");
             dout.flush();
             din.read(tmpInp);
             str3 = new String(tmpInp);
-            System.out.println("Salida ="+str3);
+            System.out.println("Salida =" + str3);
 
         } catch (IOException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
@@ -140,8 +140,10 @@ public class Conexion {
             dout.flush();
             din.read(tmpInp);
             str3 = new String(tmpInp);
+            str3 = str3.replace("\u0000", "");
             System.out.println("Entrada = " + str3);
-
+            String padded =  str3.replace("\u0000", "");
+            System.out.println("Entrada LENGTH = " + padded.length());
             jobID = 0;
             //dout.close();  
             //s.close();
@@ -163,6 +165,7 @@ public class Conexion {
             dout.flush();
             din.read(tmpInp);
             str3 = new String(tmpInp);
+            str3 = str3.replace("\u0000", "");
             System.out.println("Entrada = " + str3);
 
             //dout.close();  
@@ -171,7 +174,7 @@ public class Conexion {
             Logger.getLogger(ClienteService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void B() {
         try {
             //Resetea una luz
@@ -185,11 +188,11 @@ public class Conexion {
             dout.flush();
             din.read(tmpInp);
             str3 = new String(tmpInp);
-            
+
             String[] parts = str3.split(">");
-            
+
             for (String part : parts) {
-                System.out.println("Entrada = " + part);                
+                System.out.println("Entrada = " + part);
             }
 
             //dout.close();  
@@ -203,22 +206,57 @@ public class Conexion {
         try {
             //Resetea todo el 
             str1 = commando;
-            System.out.println("Salida = " + str1);
+            System.out.println("Salida 1 = " + str1);
             tmp = str1.getBytes();
             dout.write(tmp);
             dout.flush();
             din.read(tmpInp);
             str3 = new String(tmpInp);
-            System.out.println("Entrada = " + str3);
+            str3 = str3.replace("\u0000", "");
+            System.out.println("Entrada 1= " + str3);
+            System.out.println("Entrada Length 1 = " + str3.length());
 
-            //dout.close();  
-            //s.close();
+            din.read(tmpInp);
+            str3 = new String(tmpInp);
+            str3 = str3.replace("\u0000", "");
+            System.out.println("Entrada 2 = " + str3);
+            System.out.println("Entrada Length 2= " + str3.length());
+
+
+            String[] parts = str3.split("\u0003");
+
+            for (String part : parts) {
+
+                System.out.println("----------------------------------");
+                System.out.println("comando recibido="+ part);
+                if(part.length() > 9){
+                    if (part.substring(8, 9).equals("t")) {
+                        str1 = "\u0002" + part.substring(1, 4) + "0001O" + "\u0003";
+                        System.out.println("trama enviada 2.= " + str1);
+                        tmp = str1.getBytes();
+                        dout.write(tmp);
+                        din.read(tmpInp);
+
+                    }
+                }
+//                System.out.println("----------------------------------");
+//                din.read(tmpInp);
+//                str3 = new String(tmpInp);
+//                str3 = str3.replace("\u0000", "");
+//                System.out.println("trama recibida 3.= " + str3);
+//                System.out.println("recibida Length 3= " + str3.length());
+            }
+
+
+
+
+
         } catch (IOException ex) {
             Logger.getLogger(ClienteService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-        public void A() { //Comandos de Mantenimiento (A, Az, Ac)Cada módulo muestra la dirección propia o la configuración de la dirección para cada dispositivo.
+
+    public void A() { //Comandos de Mantenimiento (A, Az, Ac)Cada módulo muestra la dirección propia o la configuración de la dirección para cada dispositivo.
         try {
             //Resetea todo el 
             str1 = "\u00020020001A\u0003";//,str2="";
@@ -236,8 +274,6 @@ public class Conexion {
             Logger.getLogger(ClienteService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
 
     public void PP1() {
         /*
@@ -268,4 +304,19 @@ public class Conexion {
         }
     }
 
+    public void closeT(int i) {
+
+
+        try {
+            str1 = "\u0002"+ String.format("%03d", (i)) +"0001O\u0003";
+            System.out.println(str1);
+            tmp = str1.getBytes();
+            dout.write(tmp);
+            dout.flush();
+            this.B();
+
+        } catch (IOException ex) {
+            Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
