@@ -53,6 +53,13 @@ public class ClienteService extends Conexion {
                     break;
                 case "PP1":
                     this.PP1();
+                case "SS":
+                    din.read(tmpInp);
+                    str3 = new String(tmpInp);
+                    str3 = str3.replace("\u0000", "");
+                    System.out.println("Entrada 2 = " + str3);
+                    System.out.println("Entrada Length 2= " + str3.length());
+                    break;
                 case "TODO":
                     M1Service x1 = new M1Service();
                     M2Service x2 = new M2Service();
@@ -146,10 +153,10 @@ public class ClienteService extends Conexion {
                     String comando = cm1.getComando().concat("ma\u0045").concat("m4\u0044");
                     System.out.println("comando = "+comando);
 
-                    CommandoDao pp1 = pp1Service.operacion(true,"01",cm1.getLongitud()+6+14,comando,luz,"00003","0000504170000300005");
+                    CommandoDao pp1 = pp1Service.operacion(true,"01",cm1.getLongitud()+6,comando,luz,"00003","00005");//+14--32400000300005
                     System.out.println("operacion PP1 = "+pp1.getComando() +"--"+ pp1.getLongitud());
                     
-                    String trama = c.test("004", pp1.getLongitud(), pp1.getComando(), "", "");
+                    String trama = c.test(jobID, pp1.getLongitud(), pp1.getComando(), "", "");
                     trama = StringEscapeUtils.unescapeJava(trama);                    
 
                     this.command(trama);

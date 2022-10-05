@@ -29,10 +29,10 @@ public class Commandos extends Convert {
         //constructor sin inicializacion de miembros de instancia
     }
 
-    public String test(String secuencia,Integer longitud, String parametros, String address, String mensaje) {
+    public String test(Integer secuencia,Integer longitud, String parametros, String address, String mensaje) {
         //TRAMA = "\u0002|001|005|m1|\u0032|\u0011|\u0023\u0003";
 
-        SECUENCIA = secuencia;
+        SECUENCIA =String.format("%03d",secuencia);
         PARAMETROS = parametros;
         ADRESS = address;
         MENSAJE = mensaje;

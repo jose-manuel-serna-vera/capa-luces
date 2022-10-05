@@ -39,7 +39,7 @@ public class M4Service extends  Commandos {
 
         System.out.println("COMANDO "+Modo.M4_.getModo()+" = " + commandoDao.getComando());
 
-        String trama = this.test("001", commandoDao.getLongitud(),commandoDao.getComando(), "", "");
+        String trama = this.test(1, commandoDao.getLongitud(),commandoDao.getComando(), "", "");
         System.out.println("TRAMA =" + trama);
 
 

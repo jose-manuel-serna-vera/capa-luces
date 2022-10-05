@@ -30,6 +30,7 @@ public class Conexion {
 
     public Conexion(String tipo) throws IOException //Constructor
     {
+
         isFilled = false;     // sets false to false
         jobID = ++count;
         if (tipo.equals("cliente")) {
@@ -216,39 +217,47 @@ public class Conexion {
             System.out.println("Entrada 1= " + str3);
             System.out.println("Entrada Length 1 = " + str3.length());
 
-            din.read(tmpInp);
-            str3 = new String(tmpInp);
-            str3 = str3.replace("\u0000", "");
-            System.out.println("Entrada 2 = " + str3);
-            System.out.println("Entrada Length 2= " + str3.length());
-
-
-            String[] parts = str3.split("\u0003");
-
-            for (String part : parts) {
-
-                System.out.println("----------------------------------");
-                System.out.println("comando recibido="+ part);
-                if(part.length() > 9){
-                    if (part.substring(8, 9).equals("t")) {
-                        str1 = "\u0002" + part.substring(1, 4) + "0001O" + "\u0003";
-                        System.out.println("trama enviada 2.= " + str1);
-                        tmp = str1.getBytes();
-                        dout.write(tmp);
-                        din.read(tmpInp);
-
-                    }
-                }
+            return;
+//            din.read(tmpInp);
+//            str3 = new String(tmpInp);
+//            str3 = str3.replace("\u0000", "");
+//            System.out.println("Entrada 2 = " + str3);
+//            System.out.println("Entrada Length 2= " + str3.length());
+//
+//
+//            String[] parts = str3.split("\u0003");
+//
+//            for (String part : parts) {
+//
 //                System.out.println("----------------------------------");
+//                System.out.println("comando recibido="+ part);
+//                if(part.length() > 9){
+//                    if (part.substring(8, 9).equals("t")) {
+//                        str1 = "\u0002" + part.substring(1, 4) + "0001O" + "\u0003";
+//                        System.out.println("trama enviada 2.= " + str1);
+//                        tmp = str1.getBytes();
+//                        dout.write(tmp);
+//                        //din.read(tmpInp);
+//
+//                    }
+//                }
+//                System.out.println("----------------------------------");
+//                str1 = "\u000200" + jobID + "0005H0414" + "\u0003";
+//                System.out.println("trama enviada H.= " + str1);
+//                tmp = str1.getBytes();
+//                dout.write(tmp);
+//                din.read(tmpInp);
 //                din.read(tmpInp);
 //                str3 = new String(tmpInp);
 //                str3 = str3.replace("\u0000", "");
-//                System.out.println("trama recibida 3.= " + str3);
-//                System.out.println("recibida Length 3= " + str3.length());
-            }
-
-
-
+//                System.out.println("trama recibida = " + str3);
+//                System.out.println("recibida Length = " + str3.length());
+//
+//                str1 = "\u0002" + str3.substring(1, 4) + "0001O" + "\u0003";
+//                System.out.println("trama enviada Cierre.= " + str1);
+//                tmp = str1.getBytes();
+//                dout.write(tmp);
+//            }
 
 
         } catch (IOException ex) {

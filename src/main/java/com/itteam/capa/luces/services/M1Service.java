@@ -15,6 +15,12 @@ import com.itteam.capa.luces.utils.Commandos;
  */
 public class M1Service extends  Commandos {
 
+    public int jobID;
+    public static int count = 0;
+
+    public M1Service() {
+        jobID = ++count;
+    }
 
     public CommandoDao expresion(M1 m1) {
 
@@ -35,7 +41,7 @@ public class M1Service extends  Commandos {
 
         System.out.println("COMANDO "+Modo.M1_.getModo()+" = " + commandoDao.getComando());
 
-        String trama = this.test("001", commandoDao.getLongitud(),commandoDao.getComando(), "", "");
+        String trama = this.test(jobID, commandoDao.getLongitud(),commandoDao.getComando(), "", "");
         System.out.println("TRAMA =" + trama);
 
 
