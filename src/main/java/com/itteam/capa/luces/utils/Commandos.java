@@ -134,4 +134,31 @@ public class Commandos extends Convert {
     }
 
 
+    public String validatema(String valor) {
+        switch (valor) {
+            case "NORMAL": //El espacio no se trata como un valor numérico
+                return "00";
+            case "SPECIAL": //El espacio se trata como un valor numérico
+                return "01";
+            default:
+                return "00";
+        }
+    }
+
+    public String validatemaKey(String valor) {
+        switch (valor) {
+            case "DIG": //DigNumkey
+                return "00";
+            case "NOT_USE": //Not use
+                return "01";
+            case "KEY": //+/-key
+                return "10";
+            case "NOT_CHANGE": //NOT CHANGE
+                return "11";
+            default:
+                return "00";
+        }
+    }
+
+
 }

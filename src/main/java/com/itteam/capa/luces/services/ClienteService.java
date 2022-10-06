@@ -66,19 +66,20 @@ public class ClienteService extends Conexion {
                     M3Service x3 = new M3Service();
                     M4Service x4 = new M4Service();
                     M8Service x8 = new M8Service();
+                    MAService xa = new MAService();
                      in = new Scanner(System.in);
                     System.out.println("Enter address:");
                     String luz = in.nextLine();
                     System.out.println("Enter m1 config(ON,ON,ON,ON,OFF)");
-                    System.out.println("Enter Led1:");
+                    System.out.println("Enter Led1 (ON /OFF /FLASH /FAST ) BOTON:");
                     String Led1 = in.nextLine();
-                    System.out.println("Enter Led2:");
+                    System.out.println("Enter Led2 (ON /OFF /FLASH /FAST ) BOTON:");
                     String Led2 = in.nextLine();
-                    System.out.println("Enter Led3:");
+                    System.out.println("Enter Led3 (ON /OFF /FLASH /FAST ) BOTON:");
                     String Led3 = in.nextLine();
-                    System.out.println("Enter seg:");
+                    System.out.println("Enter seg (ON /OFF /FLASH /FAST ) ENCIENDE LOS DISPLAY LED :");
                     String seg = in.nextLine();
-                    System.out.println("Enter buz:");
+                    System.out.println("Enter buz(ON /OFF /FLASH /FAST ) ENCIENDE EL SONIDO :");
                     String buz = in.nextLine();
 
                     //SETEAR MODELO M1
@@ -140,7 +141,7 @@ public class ClienteService extends Conexion {
 //                    String parametros = cm1.getComando()+cm2.getComando()+cm4.getComando();
 //                    System.out.println("Mode array = "+parametros);
 //
-                    PP1Service pp1Service = new PP1Service();
+                    PP5Service pp5Service = new PP5Service();
 //
 //                    List<RepeatablePP1Dao> pp1Daos = new ArrayList<>();
 //                    RepeatablePP1Dao pp1Dao = new RepeatablePP1Dao();
@@ -149,14 +150,21 @@ public class ClienteService extends Conexion {
 //                    pp1Dao.setDisplayAfterData("00031");
 //                    pp1Daos.add(pp1Dao);
 //                    pp1Daos.add(pp1Dao);
-//                  
-                    String comando = cm1.getComando().concat("ma\u0045").concat("m4\u0044");
+//
+
+                    // BLOQUEAR TECLAS S/-
+                    MA ma = new MA();
+                    ma.setA("NORMAL");
+                    ma.setB("NOT_CHANGE");
+                    CommandoDao cma = xa.expresion(ma);
+
+                    String comando = cm1.getComando().concat(cma.getComando());//.concat("m4\u0044");
                     System.out.println("comando = "+comando);
 
-                    CommandoDao pp1 = pp1Service.operacion(true,"01",cm1.getLongitud()+6,comando,luz,"00003","00005");//+14--32400000300005
-                    System.out.println("operacion PP1 = "+pp1.getComando() +"--"+ pp1.getLongitud());
+                    CommandoDao pp5 = pp5Service.operacion(true,"01",cm1.getLongitud()+cma.getLongitud(),comando,luz,"00003","00005");//+14--32400000300005
+                    System.out.println("operacion PP5 = "+pp5.getComando() +"--"+ pp5.getLongitud());
                     
-                    String trama = c.test(jobID, pp1.getLongitud(), pp1.getComando(), "", "");
+                    String trama = c.test(jobID, pp5.getLongitud(), pp5.getComando(), "", "");
                     trama = StringEscapeUtils.unescapeJava(trama);                    
 
                     this.command(trama);

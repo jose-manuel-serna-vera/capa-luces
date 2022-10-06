@@ -322,7 +322,7 @@ public class Conexion {
             tmp = str1.getBytes();
             dout.write(tmp);
             dout.flush();
-            this.B();
+            //this.B();
 
         } catch (IOException ex) {
             Logger.getLogger(Conexion.class.getName()).log(Level.SEVERE, null, ex);

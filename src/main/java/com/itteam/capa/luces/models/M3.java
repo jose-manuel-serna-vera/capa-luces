@@ -2,6 +2,8 @@ package com.itteam.capa.luces.models;
 
 public class M3 {
 
+    //Display status after pressing the Fnkey
+
     private String LED0;
     private String LED1;
     private String LED2;

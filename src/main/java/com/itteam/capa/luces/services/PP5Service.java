@@ -7,7 +7,7 @@ import com.itteam.capa.luces.utils.Commandos;
 
 import java.util.List;
 
-public class PP1Service extends Commandos {
+public class PP5Service extends Commandos {
 
     //Puede especificar datos de visualización después de presionar la instrucción de operación de bloque FnkeyGive
 
@@ -25,7 +25,7 @@ public class PP1Service extends Commandos {
     //(1) Especificación del modo de operación・Instrucción de operación
     public CommandoDao operacion(boolean afterFn, String block,Integer longitud, String modeArray, String address, String displayData){
         String commando =
-                Modo.PP1_.getModo()+ specified(afterFn)+ block+ modeArray+ address+displayData;
+                Modo.PP5_.getModo()+ specified(afterFn)+ block+ modeArray+ address+displayData;
         commandoDao.setComando(commando);
         commandoDao.setLongitud(longitudOp1+longitud);
         return commandoDao;
@@ -34,7 +34,7 @@ public class PP1Service extends Commandos {
     //(2) Especificación del modo de operación ・Instrucción de operación ・especifique los datos de visualización después de presionar la tecla Fn
     public CommandoDao operacion(boolean afterFn,String block,Integer longitud,String modeArray,String address,String displayData,String displayPressAfterFn){
         String commando =
-                Modo.PP1_.getModo()+ specified(afterFn)+ block+ modeArray+ address+displayData+displayPressAfterFn;
+                Modo.PP5_.getModo()+ specified(afterFn)+ block+ modeArray+ address+displayData+displayPressAfterFn;
         commandoDao.setComando(commando);
         commandoDao.setLongitud(longitudOp2+longitud);
         return commandoDao;
@@ -43,7 +43,7 @@ public class PP1Service extends Commandos {
     //(3) Repetible, instrucción de operación y especificación de datos de visualización después de presionar la tecla Fn.
     public CommandoDao operacion(boolean afterFn, String block,Integer longitud, boolean omittedModeArray,String modeArray, List<RepeatablePP1Dao> address){
         String commando =
-                Modo.PP1_.getModo()+ specified(afterFn)+ block;
+                Modo.PP5_.getModo()+ specified(afterFn)+ block;
 
         commando += omittedModeArray ? "" : modeArray;
 
